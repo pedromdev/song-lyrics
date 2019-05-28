@@ -1,0 +1,44 @@
+{
+  "name": "song-lyrics",
+  "version": "1.0.0",
+  "description": "A lyrics container with React JS, MongoDB and GraphQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pedromdev/song-lyrics.git"
+  },
+  "keywords": [
+    "lyrics",
+    "songs",
+    "react",
+    "mongodb",
+    "graphql"
+  ],
+  "author": "Pedro Alves",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pedromdev/song-lyrics/issues"
+  },
+  "homepage": "https://github.com/pedromdev/song-lyrics#readme",
+  "dependencies": {
+    "apollo-boost": "^0.4.0",
+    "apollo-client": "^2.6.0",
+    "express": "^4.17.1",
+    "graphql": "^14.3.1",
+    "graphql-tag": "^2.10.1",
+    "mongoose": "^5.5.11",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  }
+}
