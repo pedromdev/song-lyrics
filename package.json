@@ -4,7 +4,10 @@
   "description": "A lyrics container with React JS, MongoDB and GraphQL",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test npm run test:server && npm run test:client",
+    "test:watch": "cross-env NODE_ENV=test concurrently --kill-others \"npm run test:watch:server\"",
+    "test:server": "jest --config=./jest.server.config.js",
+    "test:watch:server": "jest --config=./jest.server.config.js --watchAll"
   },
   "repository": {
     "type": "git",
@@ -26,9 +29,11 @@
   "dependencies": {
     "apollo-boost": "^0.4.0",
     "apollo-client": "^2.6.0",
+    "cross-env": "^5.2.0",
     "express": "^4.17.1",
     "graphql": "^14.3.1",
     "graphql-tag": "^2.10.1",
+    "jest": "^24.8.0",
     "mongoose": "^5.5.11",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -38,6 +43,8 @@
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
     "babel-loader": "^8.0.6",
+    "concurrently": "^4.1.0",
+    "mongodb-memory-server": "^5.1.2",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2"
   }
