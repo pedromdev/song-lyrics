@@ -7,7 +7,7 @@
     "test": "cross-env NODE_ENV=test npm run test:server && npm run test:client",
     "test:watch": "cross-env NODE_ENV=test concurrently --kill-others \"npm run test:watch:server\"",
     "test:server": "jest --config=./jest.server.config.js",
-    "test:watch:server": "jest --config=./jest.server.config.js --watchAll"
+    "test:server:watch": "jest --config=./jest.server.config.js --watchAll"
   },
   "repository": {
     "type": "git",
