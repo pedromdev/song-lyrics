@@ -30,6 +30,10 @@ describe('Song model', () => {
 
   describe('Data filters', () => {
 
+    afterEach(async () => {
+      await Song.deleteMany({});
+    });
+
     describe('trim', () => {
 
       it('should remove whitespaces from both ends', async () => {
