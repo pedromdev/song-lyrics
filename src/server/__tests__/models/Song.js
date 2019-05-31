@@ -14,7 +14,9 @@ describe('Song model', () => {
   describe('Validations', () => {
 
     it('should return an error when I try to save a song without required fields', async () => {
-      const song = new Song();
+      const song = new Song({
+        name: ''
+      });
 
       try {
         await song.save();
@@ -28,7 +30,7 @@ describe('Song model', () => {
 
   });
 
-  describe('Data filters', () => {
+  describe('Data', () => {
 
     afterEach(async () => {
       await Song.deleteMany({});
