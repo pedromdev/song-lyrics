@@ -1,22 +1,40 @@
-const {GraphQLObjectType, GraphQLNonNull, GraphQLList, GraphQLID} = require('graphql');
+const {GraphQLObjectType, GraphQLNonNull, GraphQLList, GraphQLID, GraphQLString} = require('graphql');
 
 const Song = require('../models/Song');
 
+const {stringToRegexp} = require('../helpers');
+
 const QueryType = new GraphQLObjectType({
   name: 'QueryType',
-  fields: () => ({
-    song: {
-      type: require('./types/SongType'),
-      args: {
-        id: {
-          type: new GraphQLNonNull(GraphQLID)
+  fields: () => {
+    const SongType = require('./types/SongType');
+
+    return {
+      song: {
+        type: SongType,
+        args: {
+          id: {type: new GraphQLNonNull(GraphQLID)}
+        },
+        resolve(parentValue, {id}) {
+          return Song.findById(id);
         }
       },
-      resolve(parentValue, {id}) {
-        return Song.findById(id);
+      songs: {
+        type: new GraphQLList(SongType),
+        args: {
+          name: {type: GraphQLString},
+          artist: {type: GraphQLString},
+          youtubeID: {type: GraphQLString},
+        },
+        resolve(parentValue, args) {
+          return Song.find(stringToRegexp(args, [
+            'name',
+            'artist'
+          ]));
+        }
       }
-    }
-  })
+    };
+  }
 });
 
 module.exports = QueryType;
