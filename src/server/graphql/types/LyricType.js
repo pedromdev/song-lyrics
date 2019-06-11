@@ -4,7 +4,7 @@ const Song = require('../../models/Song');
 const LyricType = new GraphQLObjectType({
   name: 'LyricType',
   fields: () => ({
-    id: {
+    _id: {
       type: GraphQLID
     },
     language: {
