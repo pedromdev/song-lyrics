@@ -122,4 +122,62 @@ describe('GraphQL SongType', () => {
     expect(lyric.song._id).toEqual(_song_id.toHexString());
   });
 
+  it('should list the lyrics', async () => {
+    const query = `
+      {
+        lyrics {
+          _id
+          language
+          text
+          startAt
+          endAt
+          song {
+            _id
+          }
+        }
+      }
+    `;
+    Song.findById.mockResolvedValue({
+      _id: _song_id
+    });
+    Lyric.find.mockResolvedValueOnce([
+      {
+        _id: new ObjectID(),
+        language: 'en',
+        text: 'Hello my little world',
+        startAt: 2,
+        endAt: 6,
+        _song_id
+      },
+      {
+        _id: new ObjectID(),
+        language: 'en',
+        text: 'I\'ll love anyone',
+        startAt: 2,
+        endAt: 6,
+        _song_id
+      }
+    ]);
+
+    const {data: {lyrics}} = await graphql(Schema, query);
+
+    expect(Song.findById).toHaveBeenCalledTimes(2);
+    expect(Song.findById).toHaveBeenCalledWith(_song_id);
+    expect(Lyric.find).toHaveBeenCalledTimes(1);
+    expect(Lyric.find).toHaveBeenCalledWith({});
+
+    expect(lyrics).toBeInstanceOf(Array);
+    expect(lyrics.length).toEqual(2);
+
+    lyrics.forEach(lyric => {
+      expect(lyric._id).not.toBeUndefined();
+      expect(lyric.language).toEqual('en');
+      expect(lyric.text).not.toBeUndefined();
+      expect(lyric.startAt).not.toBeUndefined();
+      expect(lyric.endAt).not.toBeUndefined();
+      expect(lyric.song).not.toBeUndefined();
+      expect(lyric.song._id).toEqual(_song_id.toHexString());
+    })
+  });
+
 });
