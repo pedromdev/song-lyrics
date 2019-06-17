@@ -18,16 +18,14 @@ describe('GraphQL MutationType', () => {
       const artist = 'Artist';
       const youtubeID = 'youtubeID';
 
-      Song.mockImplementationOnce(() => ({
-        async save() {
-          return {
-            _id,
-            name,
-            artist,
-            youtubeID
-          };
-        }
-      }));
+      const {save} = Song.prototype;
+
+      save.mockResolvedValueOnce({
+        _id,
+        name,
+        artist,
+        youtubeID
+      });
 
       const {data: {song}} = await graphql(Schema, `
         mutation {
@@ -40,8 +38,11 @@ describe('GraphQL MutationType', () => {
         }
       `);
 
+      console.log(JSON.stringify(Song, null, 2));
+
       expect(Song).toHaveBeenCalledTimes(1);
       expect(Song).toHaveBeenCalledWith({name, artist, youtubeID});
+      expect(save).toHaveBeenCalledTimes(1);
       expect(song._id).toEqual(_id.toHexString());
       expect(song.name).toEqual(name);
       expect(song.artist).toEqual(artist);
