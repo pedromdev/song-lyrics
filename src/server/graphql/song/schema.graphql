@@ -1,0 +1,12 @@
+type Song {
+  _id: ID
+  name: String
+  artist: String
+  youtubeID: String
+  lyrics(language: String, text: String): [Lyric]
+}
+
+type Query {
+  song(id: ID!): Song
+  songs(name: String, artist: String, youtubeID: String): [Song]
+}

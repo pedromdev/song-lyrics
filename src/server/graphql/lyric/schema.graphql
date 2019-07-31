@@ -1,0 +1,12 @@
+type Lyric {
+  _id: ID
+  language: String
+  text: String
+  startAt: Int
+  endAt: Int
+  song: Song
+}
+
+extend type Query {
+  lyrics(language: String, text: String): [Lyric]
+}
