@@ -1,6 +1,6 @@
-const Song = require('../../models/Song');
-const Lyric = require('../../models/Lyric');
-const {stringToRegexp} = require('../../helpers');
+const Song = require('../../../models/Song');
+const Lyric = require('../../../models/Lyric');
+const {stringToRegexp} = require('../../../helpers');
 
 module.exports.resolver = {
   Song: {
@@ -22,6 +22,13 @@ module.exports.resolver = {
         'name',
         'artist'
       ]));
+    }
+  },
+  Mutation: {
+    addSong(parentValue, {name, artist, youtubeID}) {
+      const song = new Song({name, artist, youtubeID});
+
+      return song.save();
     }
   }
 };

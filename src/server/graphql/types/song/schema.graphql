@@ -10,3 +10,7 @@ type Query {
   song(id: ID!): Song
   songs(name: String, artist: String, youtubeID: String): [Song]
 }
+
+type Mutation {
+  addSong(name: String!, artist: String!, youtubeID: String!): Song
+}

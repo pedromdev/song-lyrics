@@ -1,8 +1,12 @@
 const {GraphQLSchema} = require('graphql');
+const schemaglue = require('schemaglue');
+const {makeExecutableSchema} = require('graphql-tools');
 
-const Schema = new GraphQLSchema({
-  query: require('./QueryType'),
-  mutation: require('./MutationType'),
+const {schema, resolver} = schemaglue(`${__dirname}/types`, {
+  js: '**/*.js'
 });
 
-module.exports = Schema;
+module.exports = makeExecutableSchema({
+  typeDefs: schema,
+  resolvers: resolver
+});

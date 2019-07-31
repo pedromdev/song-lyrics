@@ -10,3 +10,7 @@ type Lyric {
 extend type Query {
   lyrics(language: String, text: String): [Lyric]
 }
+
+extend type Mutation {
+  addLyric(songId: String!, language: String!, text: String!, startAt: Int!, endAt: Int!): Lyric
+}
