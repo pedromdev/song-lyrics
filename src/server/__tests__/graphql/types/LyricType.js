@@ -285,6 +285,79 @@ describe('GraphQL Lyric type', () => {
 
     });
 
+    describe('updateLyrics', () => {
+
+      it('should update the lyrics', async () => {
+        const oldLanguage = 'en';
+        const newLanguage = 'pt_BR';
+        const lyricData = {
+          _id: new ObjectID(),
+          _song_id: new ObjectID(),
+          language: oldLanguage,
+          text: 'Hello my little world',
+          startAt: 2,
+          endAt: 6,
+          async save() {
+            return lyricData;
+          }
+        };
+        const lyricData2 = {
+          _id: new ObjectID(),
+          _song_id: new ObjectID(),
+          language: oldLanguage,
+          text: 'Hello my little world',
+          startAt: 6,
+          endAt: 12,
+          async save() {
+            return lyricData2;
+          }
+        };
+
+        const {save} = Lyric.prototype;
+
+        Lyric.find.mockResolvedValueOnce([lyricData, lyricData2]);
+        Song.findById.mockResolvedValueOnce({_id: lyricData._song_id});
+        Song.findById.mockResolvedValueOnce({_id: lyricData2._song_id});
+        save.mockResolvedValueOnce({
+          ...lyricData,
+          language: newLanguage
+        });
+        save.mockResolvedValueOnce({
+          ...lyricData2,
+          language: newLanguage
+        });
+
+        const {data: {lyrics}} = await graphql(Schema, `
+          mutation {
+            lyrics: updateLyrics(
+              language: "${newLanguage}"
+              filter: {
+                language: "en"
+              }
+            ) {
+              _id
+              language
+              text
+              startAt
+              endAt
+              song {
+                _id
+              }
+            }
+          }
+        `);
+
+        expect(lyrics.length).toEqual(2);
+        expect(Lyric.find.mock.calls[0][0]).toEqual({language: 'en'});
+
+        lyrics.forEach(lyric => {
+          expect(lyric.language).toEqual('pt_BR');
+        });
+
+      });
+
+    });
+
   });
 
 });

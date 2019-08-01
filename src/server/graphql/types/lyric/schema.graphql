@@ -7,10 +7,36 @@ type Lyric {
   song: Song
 }
 
+input LyricFilter {
+  _id: ID
+  language: String
+  text: String
+  startAt: Int
+  endAt: Int
+  song: ID
+}
+
 extend type Query {
-  lyrics(language: String, text: String): [Lyric]
+  lyrics(
+    language: String
+    text: String
+  ): [Lyric]
 }
 
 extend type Mutation {
-  addLyric(songId: String!, language: String!, text: String!, startAt: Int!, endAt: Int!): Lyric
+  addLyric(
+    songId: String!
+    language: String!
+    text: String!
+    startAt: Int!
+    endAt: Int!
+  ): Lyric
+  updateLyrics(
+    songId: String
+    language: String
+    text: String
+    startAt: Int
+    endAt: Int
+    filter: LyricFilter
+  ): [Lyric]
 }

@@ -30,6 +30,20 @@ module.exports.resolver = {
       });
 
       return await lyric.save();
+    },
+    async updateLyrics(parentValue, {songId, language, text, startAt, endAt, filter}) {
+      if (!filter || !Object.keys(filter).length) return [];
+
+      const props = {songId, language, text, startAt, endAt};
+      const lyrics = await Lyric.find(filter);
+
+      return await Promise.all(lyrics.map(async lyric => {
+        Object.keys(props)
+          .filter(key => !!key)
+          .forEach(key => lyric[key] = props[key]);
+        await lyric.save();
+        return lyric;
+      }))
     }
   }
 };
