@@ -6,8 +6,10 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test npm run test:server && npm run test:client",
     "test:watch": "cross-env NODE_ENV=test concurrently --kill-others \"npm run test:watch:server\"",
-    "test:server": "jest --config=./jest.server.config.js",
-    "test:server:watch": "jest --config=./jest.server.config.js --watchAll"
+    "test:server": "jest --silent --config=./jest.server.config.js",
+    "test:server:watch": "jest --silent --config=./jest.server.config.js --watchAll",
+    "coverage": "(npm run coverage:merge > /dev/null) && (coveralls < ./coverage/lcov.info) > /dev/null",
+    "coverage:merge": "lcov-result-merger coverage/*/lcov.info"
   },
   "repository": {
     "type": "git",
@@ -47,6 +49,8 @@
     "@babel/core": "^7.4.5",
     "babel-loader": "^8.0.6",
     "concurrently": "^4.1.0",
+    "coveralls": "^3.0.5",
+    "lcov-result-merger": "^3.1.0",
     "mongodb-memory-server": "^5.1.2",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2"
