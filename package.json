@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test npm run test:server",
+    "posttest": "npm run coverage",
     "test:watch": "cross-env NODE_ENV=test concurrently --kill-others \"npm run test:watch:server\"",
     "test:server": "jest --silent --config=./jest.server.config.js",
     "test:server:watch": "jest --silent --config=./jest.server.config.js --watchAll",
