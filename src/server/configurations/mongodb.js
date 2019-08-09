@@ -1,10 +1,15 @@
-const MongoMemoryServer = require('mongodb-memory-server').default;
+const path = require('path');
+const {MongoMemoryServer} = require('mongodb-memory-server');
 
 let mongod;
 
 if (process.env.NODE_ENV === 'test') {
   mongod = new MongoMemoryServer({
-    autoStart: false
+    autoStart: false,
+    binary: {
+      version: process.env.MONGODB_VERSION || '4.0.3',
+      downloadDir: path.resolve(__dirname, '../../../data/mongodb'),
+    }
   });
 }
 
