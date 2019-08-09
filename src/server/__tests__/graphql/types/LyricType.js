@@ -358,6 +358,50 @@ describe('GraphQL Lyric type', () => {
 
     });
 
+    describe('removeLyric', () => {
+
+      it('should remove a lyric', async () => {
+        const _id = new ObjectID();
+
+        Lyric.findByIdAndDelete.mockResolvedValueOnce({_id});
+
+        const {data: {lyric}} = await graphql(Schema, `
+          mutation {
+            lyric: removeLyric(_id: "${_id.toHexString()}") {
+              _id
+            }
+          }
+        `);
+
+        expect(Lyric.findByIdAndDelete).toHaveBeenCalledTimes(1);
+        expect(Lyric.findByIdAndDelete).toHaveBeenCalledWith(_id.toHexString());
+
+        expect(lyric._id).toEqual(_id.toHexString());
+      });
+
+      it('should throw an error when a lyric is not found', async () => {
+        const _id = new ObjectID();
+
+        Lyric.findByIdAndDelete.mockResolvedValueOnce(null);
+
+        const {errors, data: {lyric}} = await graphql(Schema, `
+          mutation {
+            lyric: removeLyric(_id: "${_id.toHexString()}") {
+              _id
+            }
+          }
+        `);
+
+        expect(Lyric.findByIdAndDelete).toHaveBeenCalledTimes(1);
+        expect(Lyric.findByIdAndDelete).toHaveBeenCalledWith(_id.toHexString());
+
+        expect(lyric).toBeNull();
+        expect(errors.length).toEqual(1);
+        expect(errors[0].message).toEqual('Lyric not found');
+      });
+
+    })
+
   });
 
 });

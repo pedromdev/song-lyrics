@@ -44,6 +44,13 @@ module.exports.resolver = {
         await lyric.save();
         return lyric;
       }))
+    },
+    async removeLyric(parentValue, {_id}) {
+      const lyric = await Lyric.findByIdAndDelete(_id);
+
+      if (lyric === null) throw new Error('Lyric not found');
+
+      return lyric;
     }
   }
 };
