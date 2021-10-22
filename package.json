@@ -10,7 +10,9 @@
     "test:server": "jest --silent --config=./jest.server.config.js",
     "test:server:watch": "jest --silent --config=./jest.server.config.js --watchAll",
     "coverage": "(npm run coverage:merge > /dev/null) && (coveralls < ./coverage/lcov.info) > /dev/null",
-    "coverage:merge": "lcov-result-merger coverage/*/lcov.info"
+    "coverage:merge": "lcov-result-merger coverage/*/lcov.info",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -43,7 +45,8 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
-    "schemaglue": "^4.0.4"
+    "schemaglue": "^4.0.4",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -55,5 +58,6 @@
     "mongodb-memory-server": "^5.1.2",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2"
-  }
+  },
+  "snyk": true
 }
